@@ -4,14 +4,14 @@
 class Aff3ct < Formula
   desc "AFF3CT is a simulator dedicated to the Forward Error Correction (FEC or channel coding). It is written in C++ and it supports a large range of codes: from the well-spread Turbo codes to the very new Polar codes including the Low-Density Parity-Check (LDPC) codes. AFF3CT is a command line program and it simulates communication chains based on a Monte Carlo method."
   homepage "https://github.com/aff3ct/aff3ct"
-  url "https://github.com/aff3ct/aff3ct"
-  version ""
-  sha256 ""
-  # depends_on "cmake" => :build
+  url "https://github.com/aff3ct/aff3ct", :using => :git, :tag => "v2.3.2"
+  depends_on "cmake" => :build
 
   def install
-    system "cmake", ".", *std_cmake_args
-    system "make", "install" # if this fails, try separate make/make install steps
+    mkdir "build" do
+      system "cmake", "..", *std_cmake_args, "-DAFF3CT_COMPILE_SHARED_LIB=ON -DAFF3CT_COMPILE_STATIC_LIB=ON"
+      system "make", "install" # if this fails, try separate make/make install steps
+    end
   end
 
   test do
